@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<style>
+		div#test {
+			border: #000 1px solid;
+			padding: 10px 40px 40px 40px;
+		}
+	</style>
+	<script>
+		var pos = 0, test, test_status, question, choice, choices, chA, chB, chC, correct = 0;
+		var questions = [
+			["01", "Persuasive/ඒත්තු ගැන්විය හැක", "Fearful/තැති ගැන්වෙන සුළුයි", "Open-minded/විවෘත මනසක් සහිතයි", "Original/සුවිශේෂී"],
+			["02", "Cautious/පරිස්සම් සහගතයි", "Convincing/විශ්වාසය ඇති කළ හැකි", "Aggressive/ප්‍රචණ්ඩකාරී", "good natured/යහපත් ගති ඇත"],
+			["03", "Docile/කීකරුයි", "Dogged/උත්සාහවන්තයි", "Open-minded/විවෘත මනසක් සහිතයි", "Bold/ධෛර්ය සම්පන්නයි"],
+			["04", "Charming/ප්‍රියමනාපයි", "Loyal/ඉතා හිතවත්", "Determined/අධිෂ්ඨානශීලී", "Even-tempered/තරහ යන සුළුය"],
+			["05", "Willing/සිය කැමැත්තෙන් කරන", "Eager/ඉතා උනන්දුවෙන්", "Nervy/කලබලකාරී", "Strong-willed/දැඩි අධිෂ්ඨානශීලී"],
+			["06", "Agreeable/එකඟ විය හැකි", "High-spirited/මහත් උනන්දු ඇති", "Confident/විශ්වාසනීය", "Even-tempered/තරහ යන සුළුය"],
+			["07", "Obliging/කාරුණිකයි", "Assertive/ස්ථිර සාරයි", "Precise/ඉතා නිවැරදිය", "Animated/ප්‍රාණවත්"],
+			["08", "Disciplined/විනයගරුකයි", "Cheerful/උද්‍යෝගිමත්", "Restless/අවිවේකී", "Resigned/ඉවසිලිවන්තයි"],
+			["09", "Sympathetic/අනුකම්පා සහගතයි", "Persistent/යමක් අඛණ්ඩව සිදු කරයි", "Obedient/කීකරුයි", "Spontaneous/සිය කැමැත්තෙන් සිදු කරයි"],
+			["10", "Competitive/තරගකාරී", "Tolerant/ඉවසිලිවන්තයි", "Fussy/කලබලකාරී", "Pioneering/මග පෙන්වනු ලබයි"],
+			["11", "Respectful/ගරු කරයි", "Jovial/විනෝදකාමී", "Influential/බලපෑම් කළ හැක", "Optimistic/සුබවාදී"],
+			["12", "Generous/ත්‍යාගශීලී", "Unconquerable/අපරාජිතයි", "Inspiring/සිතට දැන විය හැක", "Submissive/අවනතයි"],
+			["13", "Considerate/ආචාරශීලී", "Brave/නිර්භීතයි", "Timid/බියගුළු", "Adaptable/අනුවර්තනය විය හැක"],
+			["14", "Argumentative/වාදයට බරයි", "Kind/කාරුණිකයි", "Nonchalant/උදාසීනයි", "Patient/ඉවසිලිවන්තයි"],
+			["15", "Self-reliant/ආත්ම විශ්වාසය සහිතයි", "Light hearted/සැහැල්ලුවෙන් යුක්තයි", "Soft Spoken/මෘදු වදනින් කතාකරයි", "Trusting/විශ්වාසයෙන් යුක්තයි"],
+			["16", "Adventurous/නිර්භීතයි", "Peaceful/සාමකාමී", "Positive/ධනාත්මක", "Moderate/මධ්‍යස්ථයි"],
+			["17", "Cordial/මිත්‍රශීලී", "Vigorous/ශක්ති සම්පන්නයි", "Receptive/ඉක්මනින් වටහා ගනියි", "Controlled/පාලනය කළ හැක"],
+			["18", "Accurate/නිවැරදි", "Good Mixer/මනා සම්මිශ්‍රණයකින් යුක්තයි", "Decisive/තීරණ ගත හැකියි", "Lenient/මෘදු බවින් යුක්තයි"],
+			["19", "Talkative/කටකාරයි", "Conventional/ගතානුගතිකයි", "Outspoken/කෙලින් කතා කරයි", "Satisfied/තෘප්තිමත් වෙයි"],
+			["20", "Audacious/ගරුසරු නොදක්වයි", "Popular/ජනප්‍රිය", "Companionable/සමාජශීලී", "Polished/ආටෝපයෙන් යුක්තයි"]
+
+		];
+		function _(x) {
+			return document.getElementById(x);
+		}
+		function renderQuestion() {
+			test = _("test");
+			if (pos >= questions.length) {
+				test.innerHTML = "<h2>You got " + correct + " of " + questions.length + " questions correct</h2>";
+				_("test_status").innerHTML = "Test Completed";
+				pos = 0;
+				correct = 0;
+				return false;
+			}
+			_("test_status").innerHTML = "Question " + (pos + 1) + " of " + questions.length;
+			question = questions[pos][0];
+			chA = questions[pos][1];
+			chB = questions[pos][2];
+			chC = questions[pos][3];
+			chD = questions[pos][4];
+
+			test.innerHTML = "<h3>" + question + "</h3>";
+			test.innerHTML += "<input type='radio' name='choices' value='A'> " + chA + "<br>";
+			test.innerHTML += "<input type='radio' name='choices' value='B'> " + chB + "<br>";
+			test.innerHTML += "<input type='radio' name='choices' value='C'> " + chC + "<br>";
+			test.innerHTML += "<input type='radio' name='choices' value='D'> " + chD + "<br><br>";
+			test.innerHTML += "<button onclick='checkAnswer()'>Submit Answer</button>";
+		}
+		function checkAnswer() {
+			choices = document.getElementsByName("choices");
+			if(choices!=null){
+
+				for (var i = 0; i < choices.length; i++) {
+				if (choices[i].checked) {
+					choice = choices[i].value;
+				}
+				}
+				if (choice == questions[pos][4]) {
+					correct++;
+				}
+				pos++;
+				renderQuestion();
+			}
+		}
+		window.addEventListener("load", renderQuestion, false);
+	</script>
+</head>
+
+<body>
+	<h2 id="test_status"></h2>
+	<div id="test"></div>
+</body>
+
+</html>
